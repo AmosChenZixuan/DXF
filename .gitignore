@@ -1,0 +1,10 @@
+
+*.cpp
+*.h
+*.vcxproj
+*.def
+*.user
+*.filters
+*.zip
+*.json
+*.pyc
