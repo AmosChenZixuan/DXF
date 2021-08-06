@@ -4,6 +4,8 @@ from extractors import PolyLineExtractor
 pe = PolyLineExtractor()
 x,y = None,None
 
+
+
 #with open('circle-.dxf', 'r') as doc:
 with open('ZH-XJ-20174240-部件-v3.dxf', 'r') as doc:
 
@@ -20,5 +22,6 @@ with open('ZH-XJ-20174240-部件-v3.dxf', 'r') as doc:
 
         # if i > 0:
         #     break
-
+plt.xlim((-1500, 2500))
+plt.ylim((-1000, 2000))
 plt.show()
