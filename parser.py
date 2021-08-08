@@ -1,13 +1,16 @@
 import matplotlib.pyplot as plt
 from extractors import PolyLineExtractor
+from drawer import Drawer
+from geometry import PolyLine
 
 pe = PolyLineExtractor()
-x,y = None,None
+drawer = Drawer()
+drawer.setCanvas(-1500, 2500, -1000, 2000, no_axis=True)
 
+#file_name = 'circle-'
+file_name = 'ZH-XJ-20174240-部件-v3'
 
-
-#with open('circle-.dxf', 'r') as doc:
-with open('ZH-XJ-20174240-部件-v3.dxf', 'r') as doc:
+with open(f'{file_name}.dxf', 'r') as doc:
 
     i = 0
     while True:
@@ -15,13 +18,14 @@ with open('ZH-XJ-20174240-部件-v3.dxf', 'r') as doc:
         if line == 'EOF':
             break
         if line == 'POLYLINE':
-            x,y = pe.extract(doc)
-            plt.plot(x,y)
+            x, y     = pe.extract(doc)
+            polyline =  PolyLine(x,y)
+            drawer.add(polyline)
             i += 1
+        if i > 6:
+            break
 
 
-        # if i > 0:
-        #     break
-plt.xlim((-1500, 2500))
-plt.ylim((-1000, 2000))
-plt.show()
+drawer.plot()
+#drawer.show()
+drawer.save(f"{file_name}.png")
