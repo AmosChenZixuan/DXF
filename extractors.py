@@ -1,32 +1,61 @@
+from geometry import PolyLine, Block
+from drawer import Drawer
 
 X1 = '10'
 Y1 = '20'
 X2 = '11'
 Y2 = '21'
 
+'''
+==== Dxf ====
 
-class BaseExtractor:
-    def reset_buffers(self):
-        self.xBuf = []
-        self.yBuf = []
+Block               - Geometry Pieces
+    PolyLine        - Curved line represented as vertices
+        Vertex      - Points
+    SEQEND          - End of list of vertices
+ENDBLK              - End of one piece/block
+...
+EOF                 - End of File
 
-    @staticmethod
-    def get_line(doc):
-        return next(doc).strip()
+=============
+'''
 
-class PolyLineExtractor(BaseExtractor):
-    def extract(self, doc):
-        self.reset_buffers()
-        fVertex = False
-        while True:
-            line = self.get_line(doc)
-            if line == 'SEQEND':
-                break
-            if line == 'VERTEX':
-                fVertex = not fVertex
-            if fVertex and line == X1:
-                self.xBuf.append(float(self.get_line(doc)))
-            if fVertex and line == Y1:
-                self.yBuf.append(float(self.get_line(doc)))
-                fVertex = False
-        return self.xBuf, self.yBuf
+
+def extract_dxf(doc, drawer:Drawer):
+    while True:
+        line = extract_line(doc)
+        if line == 'EOF':
+            break
+        if line == 'BLOCK':
+            blk = extract_block(doc)
+            drawer.add(blk)
+    return drawer
+
+def extract_line(doc):
+    return next(doc).strip()
+    
+def extract_polyline(doc):
+    xBuf, yBuf = [], []
+    fVertex = False
+    while True:
+        line = extract_line(doc)
+        if line == 'SEQEND':
+            break
+        if line == 'VERTEX':
+            fVertex = not fVertex
+        if fVertex and line == X1:
+            xBuf.append(float(extract_line(doc)))
+        if fVertex and line == Y1:
+            yBuf.append(float(extract_line(doc)))
+            fVertex = False
+    return PolyLine(xBuf, yBuf)
+
+def extract_block(doc):
+    pBuf = []
+    while True:
+        line = extract_line(doc)
+        if line == 'ENDBLK':
+            break
+        if line == 'POLYLINE':
+           pBuf.append(extract_polyline(doc))
+    return Block(pBuf)
