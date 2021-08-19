@@ -1,5 +1,5 @@
-from geometry import PolyLine, Block
-from drawer import Drawer
+from dxf.geometry import PolyLine, Block
+from dxf.drawer import Drawer
 
 X1 = '10'
 Y1 = '20'

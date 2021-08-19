@@ -1,7 +1,7 @@
 # Example1
-![Example1](circle-.png)
+![Example1](pic/circle-.png)
 # Example2
-![Example2](ZH-XJ-20174240-部件-v3.png)
+![Example2](pic/ZH-XJ-20174240-部件-v3.png)
 
 # Usage - Per File
 ```python
