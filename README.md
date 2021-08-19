@@ -11,7 +11,7 @@ from drawer import Drawer
 drawer = Drawer()
 drawer.setCanvas(-1500, 2500, -1000, 2000, no_axis=True)
 
-with open('file_name.dxf', 'r') as doc:
+with open('file_name.dxf', 'r', encoding='gb18030') as doc:
     drawer = extract_dxf(doc, drawer)
 
 drawer.plot()
@@ -24,15 +24,15 @@ drawer.save("file_name.png")
 from extractors import *
 from drawer import Drawer
 
-with open('file_name.dxf', 'r') as doc:
-    while True:
-        drawer = Drawer()
-        drawer.setCanvas(-1500, 2500, -1000, 2000, no_axis=True)    
+with open('file_name.dxf', 'r', encoding='gb18030') as doc:
+    while True:   
         line = extract_line(doc)
         if line == 'EOF':
             break
         if line == 'BLOCK':
             blk = extract_block(doc)
+            drawer = Drawer()
+            drawer.setCanvas(-800, 800, -800, 800, no_axis=True)
             drawer.add(blk)
             drawer.plot()
             drawer.save("file_name.png")

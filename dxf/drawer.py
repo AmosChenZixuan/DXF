@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 
 class Drawer:
     def __init__(self):
+        plt.clf()
         self.elements = []
 
     def add(self, element):
@@ -17,7 +18,9 @@ class Drawer:
 
     @staticmethod
     def save(path="Figure.png"):
-        plt.savefig(path, bbox_inches='tight', pad_inches=0)
+        figure = plt.gcf()
+        figure.set_size_inches(5.12, 5.12)
+        plt.savefig(path, dpi=100)
 
     @staticmethod
     def setCanvas(x0, x1, y0, y1, no_axis=True):

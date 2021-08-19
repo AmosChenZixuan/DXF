@@ -27,7 +27,7 @@ def extract_dxf(doc, drawer:Drawer):
         if line == 'EOF':
             break
         if line == 'BLOCK':
-            blk = extract_block(doc)
+            blk = extract_block(doc, relocate=False)
             drawer.add(blk)
     return drawer
 
@@ -50,7 +50,7 @@ def extract_polyline(doc):
             fVertex = False
     return PolyLine(xBuf, yBuf)
 
-def extract_block(doc):
+def extract_block(doc, relocate=True):
     pBuf = []
     while True:
         line = extract_line(doc)
@@ -58,4 +58,4 @@ def extract_block(doc):
             break
         if line == 'POLYLINE':
            pBuf.append(extract_polyline(doc))
-    return Block(pBuf)
+    return Block(pBuf, relocate)
